@@ -10,7 +10,7 @@ Users can discover games by sport, join available games, or host their own.
 
 ## 🌐 Live Demo
 
-SquadUp is deployed with Netlify.
+👉 [Open SquadUp Live](https://squadup-malak.netlify.app)
 
 ---
 
