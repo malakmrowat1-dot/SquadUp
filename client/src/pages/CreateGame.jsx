@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import '../App.css'
 
 const API_URL =
   'https://6a8eb6b3a12b7de8cc0ee64d.mockapi.io/games'
 
-function EditGame() {
-  const { id } = useParams()
+function CreateGame() {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
@@ -15,41 +14,12 @@ function EditGame() {
   const [date, setDate] = useState('')
   const [level, setLevel] = useState('')
   const [spotsLeft, setSpotsLeft] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    async function getGame() {
-      try {
-        const response = await fetch(`${API_URL}/${id}`)
-
-        if (!response.ok) {
-          throw new Error('Failed to load game')
-        }
-
-        const game = await response.json()
-
-        setTitle(game.title)
-        setSport(game.sport)
-        setLocation(game.location)
-        setDate(game.date)
-        setLevel(game.level)
-        setSpotsLeft(String(game.spotsLeft))
-      } catch (error) {
-        console.error('GET ONE error:', error)
-        alert('Could not load game.')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    getGame()
-  }, [id])
-
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e) {
     e.preventDefault()
 
-    const updatedGame = {
+    const newGame = {
       title,
       sport,
       location,
@@ -59,38 +29,36 @@ function EditGame() {
     }
 
     try {
-      setSaving(true)
+      setLoading(true)
 
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
+      const response = await fetch(API_URL, {
+        method: 'POST',
+
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedGame),
+
+        body: JSON.stringify(newGame),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to update game')
+        throw new Error('Failed to create game')
       }
 
-      alert('Game updated successfully!')
+      const createdGame = await response.json()
+
+      console.log('Game created:', createdGame)
+
+      alert('Game created successfully!')
+
       navigate('/games')
     } catch (error) {
-      console.error('UPDATE error:', error)
-      alert('Could not update the game.')
-    } finally {
-      setSaving(false)
-    }
-  }
+      console.error('Error:', error)
 
-  if (loading) {
-    return (
-      <div className="create-game-page">
-        <p className="games-message">
-          Loading game...
-        </p>
-      </div>
-    )
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -111,10 +79,10 @@ function EditGame() {
 
       <div className="create-game-container">
 
-        <h1>Edit Game</h1>
+        <h1>Host a Game</h1>
 
         <p>
-          Update your game information.
+          Create a new game and invite players to join.
         </p>
 
         <form
@@ -126,6 +94,7 @@ function EditGame() {
 
           <input
             type="text"
+            placeholder="Example: Football at Nazareth"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -138,6 +107,9 @@ function EditGame() {
             onChange={(e) => setSport(e.target.value)}
             required
           >
+            <option value="">
+              Select sport
+            </option>
 
             <option value="Football">
               ⚽ Football
@@ -186,13 +158,13 @@ function EditGame() {
             <option value="Fitness">
               🏋️ Fitness
             </option>
-
           </select>
 
           <label>Location</label>
 
           <input
             type="text"
+            placeholder="Example: Nazareth"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             required
@@ -214,6 +186,10 @@ function EditGame() {
             onChange={(e) => setLevel(e.target.value)}
             required
           >
+            <option value="">
+              Select level
+            </option>
+
             <option value="Casual">
               Casual
             </option>
@@ -232,6 +208,7 @@ function EditGame() {
           <input
             type="number"
             min="1"
+            placeholder="Example: 5"
             value={spotsLeft}
             onChange={(e) => setSpotsLeft(e.target.value)}
             required
@@ -240,9 +217,9 @@ function EditGame() {
           <button
             type="submit"
             className="join-btn"
-            disabled={saving}
+            disabled={loading}
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {loading ? 'Creating...' : 'Create Game'}
           </button>
 
         </form>
@@ -253,4 +230,4 @@ function EditGame() {
   )
 }
 
-export default EditGame
+export default CreateGame

@@ -2,16 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
 
-type Game = {
-  id: string
-  sport: string
-  title: string
-  location: string
-  date: string
-  level: string
-  spotsLeft: number
-}
-
 const API_URL =
   'https://6a8eb6b3a12b7de8cc0ee64d.mockapi.io/games'
 
@@ -31,43 +21,57 @@ const sports = [
   'Fitness',
 ]
 
-function getSportIcon(sport: string) {
+function getSportIcon(sport) {
   switch (sport) {
     case 'Football':
       return '⚽'
+
     case 'Basketball':
       return '🏀'
+
     case 'Tennis':
       return '🎾'
+
     case 'Volleyball':
       return '🏐'
+
     case 'Running':
       return '🏃'
+
     case 'Ice Hockey':
       return '🏒'
+
     case 'American Football':
       return '🏈'
+
     case 'Rugby':
       return '🏉'
+
     case 'Boxing':
       return '🥊'
+
     case 'Swimming':
       return '🏊'
+
     case 'Cycling':
       return '🚴'
+
     case 'Fitness':
       return '🏋️'
+
     default:
       return '🏅'
   }
 }
 
 function Games() {
-  const [games, setGames] = useState<Game[]>([])
+  const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedSport, setSelectedSport] = useState('All')
 
+  // =========================
   // GET
+  // =========================
   useEffect(() => {
     async function getGames() {
       try {
@@ -78,6 +82,7 @@ function Games() {
         }
 
         const data = await response.json()
+
         setGames(data)
       } catch (error) {
         console.error('GET error:', error)
@@ -89,8 +94,10 @@ function Games() {
     getGames()
   }, [])
 
+  // =========================
   // JOIN GAME - PUT
-  async function joinGame(game: Game) {
+  // =========================
+  async function joinGame(game) {
     if (Number(game.spotsLeft) <= 0) {
       alert('Sorry, this game is full.')
       return
@@ -104,9 +111,11 @@ function Games() {
     try {
       const response = await fetch(`${API_URL}/${game.id}`, {
         method: 'PUT',
+
         headers: {
           'Content-Type': 'application/json',
         },
+
         body: JSON.stringify(updatedGame),
       })
 
@@ -127,12 +136,15 @@ function Games() {
       alert('You joined the game!')
     } catch (error) {
       console.error('JOIN error:', error)
+
       alert('Could not join the game.')
     }
   }
 
+  // =========================
   // DELETE
-  async function deleteGame(id: string) {
+  // =========================
+  async function deleteGame(id) {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this game?'
     )
@@ -151,30 +163,40 @@ function Games() {
       }
 
       setGames((currentGames) =>
-        currentGames.filter((game) => game.id !== id)
+        currentGames.filter(
+          (game) => game.id !== id
+        )
       )
     } catch (error) {
       console.error('DELETE error:', error)
+
       alert('Could not delete the game.')
     }
   }
 
+  // =========================
+  // FILTER
+  // =========================
   const filteredGames =
     selectedSport === 'All'
       ? games
       : games.filter(
-          (game) => game.sport === selectedSport
+          (game) =>
+            game.sport === selectedSport
         )
 
   return (
     <div className="app">
 
+      {/* NAVBAR */}
       <nav className="navbar">
+
         <Link to="/" className="logo">
           ⚡ SQUADUP
         </Link>
 
         <div className="nav-links">
+
           <Link to="/games">
             Find Games
           </Link>
@@ -182,6 +204,7 @@ function Games() {
           <Link to="/">
             Home
           </Link>
+
         </div>
 
         <Link to="/create-game">
@@ -189,11 +212,16 @@ function Games() {
             Host a game
           </button>
         </Link>
+
       </nav>
 
+
+      {/* GAMES PAGE */}
       <section className="games-page">
 
+        {/* HEADER */}
         <div className="games-header">
+
           <p className="section-label">
             FIND YOUR NEXT MATCH
           </p>
@@ -205,11 +233,15 @@ function Games() {
           <p className="games-description">
             Browse games and join players near you.
           </p>
+
         </div>
 
+
+        {/* SPORTS FILTER */}
         <div className="sport-filters">
 
           {sports.map((sport) => (
+
             <button
               key={sport}
               className={
@@ -217,41 +249,61 @@ function Games() {
                   ? 'active-filter'
                   : ''
               }
-              onClick={() => setSelectedSport(sport)}
+              onClick={() =>
+                setSelectedSport(sport)
+              }
             >
+
               {sport === 'All'
                 ? 'All Sports'
                 : `${getSportIcon(sport)} ${sport}`}
+
             </button>
+
           ))}
 
         </div>
 
+
+        {/* LOADING */}
         {loading && (
           <p className="games-message">
             Loading games...
           </p>
         )}
 
+
+        {/* NO GAMES */}
         {!loading && games.length === 0 && (
+
           <div className="games-message">
-            <h2>No games yet</h2>
+
+            <h2>
+              No games yet
+            </h2>
 
             <p>
               Be the first player to host a game!
             </p>
 
             <Link to="/create-game">
+
               <button className="join-btn">
                 Host a Game
               </button>
+
             </Link>
+
           </div>
+
         )}
 
+
+        {/* NO FILTER RESULTS */}
         {!loading &&
           games.length > 0 &&
           filteredGames.length === 0 && (
+
             <div className="games-message">
 
               <h2>
@@ -263,11 +315,15 @@ function Games() {
               </p>
 
             </div>
+
           )}
 
+
+        {/* GAME CARDS */}
         <div className="games-list">
 
           {filteredGames.map((game) => (
+
             <div
               className="game-card"
               key={game.id}
@@ -276,7 +332,8 @@ function Games() {
               <div className="game-card-top">
 
                 <span className="game-sport">
-                  {getSportIcon(game.sport)} {game.sport}
+                  {getSportIcon(game.sport)}{' '}
+                  {game.sport}
                 </span>
 
                 <span className="game-level">
@@ -285,9 +342,11 @@ function Games() {
 
               </div>
 
+
               <h2>
                 {game.title}
               </h2>
+
 
               <div className="game-details">
 
@@ -304,6 +363,7 @@ function Games() {
 
               </div>
 
+
               <div className="game-footer">
 
                 <span>
@@ -312,16 +372,23 @@ function Games() {
 
                 <div className="game-actions">
 
+                  {/* JOIN */}
                   <button
                     className="join-btn"
-                    onClick={() => joinGame(game)}
-                    disabled={Number(game.spotsLeft) <= 0}
+                    onClick={() =>
+                      joinGame(game)
+                    }
+                    disabled={
+                      Number(game.spotsLeft) <= 0
+                    }
                   >
                     {Number(game.spotsLeft) <= 0
                       ? 'Game Full'
                       : 'Join Game'}
                   </button>
 
+
+                  {/* EDIT */}
                   <Link
                     to={`/edit-game/${game.id}`}
                   >
@@ -330,6 +397,8 @@ function Games() {
                     </button>
                   </Link>
 
+
+                  {/* DELETE */}
                   <button
                     className="delete-btn"
                     onClick={() =>
@@ -344,6 +413,7 @@ function Games() {
               </div>
 
             </div>
+
           ))}
 
         </div>

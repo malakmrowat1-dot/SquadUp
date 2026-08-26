@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Home from './pages/Home'
-import Games from './pages/Games'
-import CreateGame from './pages/CreateGame'
-import EditGame from './pages/EditGame'
-import Login from './pages/Login'
-import Register from './pages/Register'
+import Home from './pages/Home.jsx'
+import Games from './pages/Games.jsx'
+import CreateGame from './pages/CreateGame.jsx'
+import EditGame from './pages/EditGame.jsx'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
 
 import './App.css'
 

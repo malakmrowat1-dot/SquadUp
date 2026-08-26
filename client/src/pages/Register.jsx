@@ -10,7 +10,7 @@ function Register() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e) {
     e.preventDefault()
 
     if (!name || !email || !password || !confirmPassword) {
@@ -104,9 +104,7 @@ function Register() {
             type="password"
             placeholder="Confirm your password"
             value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(e.target.value)
-            }
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
 
