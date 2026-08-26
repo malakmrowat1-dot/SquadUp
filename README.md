@@ -12,6 +12,10 @@ Users can discover games by sport, join available games, or host their own.
 
 👉 [Open SquadUp Live](https://squadup-malak.netlify.app)
 
+## 📸 Project Preview
+
+![SquadUp Website Preview](squadup-preview.png)
+
 ---
 
 ## ✨ Features
