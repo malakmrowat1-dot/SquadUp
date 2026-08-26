@@ -1,64 +1,53 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Home from './pages/Home'
+import Games from './pages/Games'
+import CreateGame from './pages/CreateGame'
+import EditGame from './pages/EditGame'
+import Login from './pages/Login'
+import Register from './pages/Register'
+
 import './App.css'
 
 function App() {
   return (
-    <div className="app">
+    <BrowserRouter>
 
-      <nav className="navbar">
-        <div className="logo">
-          ⚡ SQUADUP
-        </div>
+      <Routes>
 
-        <div className="nav-links">
-          <a href="#">Find Games</a>
-          <a href="#">How it works</a>
-          <a href="#">Players</a>
-        </div>
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-        <div className="nav-actions">
-          <button className="login-btn">Log in</button>
-          <button className="join-btn">Join free</button>
-        </div>
-      </nav>
+        <Route
+          path="/games"
+          element={<Games />}
+        />
 
-      <main className="hero-section">
+        <Route
+          path="/create-game"
+          element={<CreateGame />}
+        />
 
-        <div className="hero-text">
+        <Route
+          path="/edit-game/:id"
+          element={<EditGame />}
+        />
 
-          <p className="small-title">
-            PLAY. CONNECT. REPEAT.
-          </p>
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-          <h1>
-            FIND YOUR
-            <span> GAME.</span>
-            <br />
-            BUILD YOUR
-            <br />
-            SQUAD.
-          </h1>
+        <Route
+          path="/register"
+          element={<Register />}
+        />
 
-          <p className="description">
-            SquadUp connects you with players nearby.
-            Whether you want a casual kick-around or a
-            competitive match, your next game is minutes away.
-          </p>
+      </Routes>
 
-          <button className="hero-button">
-            Find a game
-          </button>
-
-        </div>
-
-        <div className="hero-image">
-          <div className="image-placeholder">
-            SPORTS IMAGE
-          </div>
-        </div>
-
-      </main>
-
-    </div>
+    </BrowserRouter>
   )
 }
 
