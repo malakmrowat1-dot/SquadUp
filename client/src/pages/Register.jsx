@@ -1,17 +1,31 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import '../App.css'
+import Navbar from '../components/Navbar.jsx'
+import '../styles/global.css'
+import '../styles/Auth.css'
 
-function Register() {
+const initialFormData = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+}
+
+const Register = () => {
   const navigate = useNavigate()
+  const [formData, setFormData] = useState(initialFormData)
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }))
+  }
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const { name, email, password, confirmPassword } = formData
 
     if (!name || !email || !password || !confirmPassword) {
       alert('Please fill in all fields.')
@@ -35,97 +49,81 @@ function Register() {
     )
 
     alert('Account created successfully!')
-
     navigate('/login')
   }
 
   return (
-    <div className="create-game-page">
+    <div className="auth-page">
+      <Navbar />
 
-      <nav className="navbar">
-
-        <Link to="/" className="logo">
-          ⚡ SQUADUP
-        </Link>
-
-        <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/games">Find Games</Link>
-        </div>
-
-      </nav>
-
-      <div className="create-game-container">
-
+      <div className="auth-container">
         <h1>Join SquadUp</h1>
 
-        <p>
+        <p className="auth-description">
           Create your account and find your next game.
         </p>
 
-        <form
-          className="game-form"
-          onSubmit={handleSubmit}
-        >
-
-          <label>Full name</label>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label htmlFor="name">Full name</label>
 
           <input
+            id="name"
+            name="name"
             type="text"
             placeholder="Enter your full name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleChange}
             required
           />
 
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
 
           <input
+            id="email"
+            name="email"
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             required
           />
 
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
 
           <input
+            id="password"
+            name="password"
             type="password"
             placeholder="Create a password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
           />
 
-          <label>Confirm password</label>
+          <label htmlFor="confirmPassword">
+            Confirm password
+          </label>
 
           <input
+            id="confirmPassword"
+            name="confirmPassword"
             type="password"
             placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={formData.confirmPassword}
+            onChange={handleChange}
             required
           />
 
-          <button
-            type="submit"
-            className="join-btn"
-          >
+          <button type="submit" className="auth-submit">
             Create Account
           </button>
 
-          <p style={{ textAlign: 'center' }}>
+          <p className="auth-footer">
             Already have an account?{' '}
-            <Link to="/login">
-              Log in
-            </Link>
+            <Link to="/login">Log in</Link>
           </p>
-
         </form>
-
       </div>
-
     </div>
   )
 }

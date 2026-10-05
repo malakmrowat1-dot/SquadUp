@@ -1,31 +1,56 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import '../App.css'
+import '../styles/global.css'
+import '../styles/GameForm.css'
 
 const API_URL =
   'https://6a8eb6b3a12b7de8cc0ee64d.mockapi.io/games'
 
-function CreateGame() {
+const initialFormData = {
+  title: '',
+  sport: '',
+  location: '',
+  date: '',
+  level: '',
+  spotsLeft: '',
+}
+
+const sports = [
+  { value: 'Football', label: '⚽ Football' },
+  { value: 'Basketball', label: '🏀 Basketball' },
+  { value: 'Tennis', label: '🎾 Tennis' },
+  { value: 'Volleyball', label: '🏐 Volleyball' },
+  { value: 'Running', label: '🏃 Running' },
+  { value: 'Ice Hockey', label: '🏒 Ice Hockey' },
+  { value: 'American Football', label: '🏈 American Football' },
+  { value: 'Rugby', label: '🏉 Rugby' },
+  { value: 'Boxing', label: '🥊 Boxing' },
+  { value: 'Swimming', label: '🏊 Swimming' },
+  { value: 'Cycling', label: '🚴 Cycling' },
+  { value: 'Fitness', label: '🏋️ Fitness' },
+]
+
+const levels = ['Casual', 'Intermediate', 'Competitive']
+
+const CreateGame = () => {
   const navigate = useNavigate()
 
-  const [title, setTitle] = useState('')
-  const [sport, setSport] = useState('')
-  const [location, setLocation] = useState('')
-  const [date, setDate] = useState('')
-  const [level, setLevel] = useState('')
-  const [spotsLeft, setSpotsLeft] = useState('')
+  const [formData, setFormData] = useState(initialFormData)
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
 
     const newGame = {
-      title,
-      sport,
-      location,
-      date,
-      level,
-      spotsLeft: Number(spotsLeft),
+      ...formData,
+      spotsLeft: Number(formData.spotsLeft),
     }
 
     try {
@@ -33,11 +58,9 @@ function CreateGame() {
 
       const response = await fetch(API_URL, {
         method: 'POST',
-
         headers: {
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify(newGame),
       })
 
@@ -45,16 +68,10 @@ function CreateGame() {
         throw new Error('Failed to create game')
       }
 
-      const createdGame = await response.json()
-
-      console.log('Game created:', createdGame)
-
       alert('Game created successfully!')
-
       navigate('/games')
     } catch (error) {
-      console.error('Error:', error)
-
+      console.error('Error creating game:', error)
       alert('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
@@ -63,9 +80,7 @@ function CreateGame() {
 
   return (
     <div className="create-game-page">
-
       <nav className="navbar">
-
         <Link to="/" className="logo">
           ⚡ SQUADUP
         </Link>
@@ -74,143 +89,88 @@ function CreateGame() {
           <Link to="/">Home</Link>
           <Link to="/games">Find Games</Link>
         </div>
-
       </nav>
 
       <div className="create-game-container">
-
         <h1>Host a Game</h1>
+        <p>Create a new game and invite players to join.</p>
 
-        <p>
-          Create a new game and invite players to join.
-        </p>
-
-        <form
-          className="game-form"
-          onSubmit={handleSubmit}
-        >
-
-          <label>Game title</label>
-
+        <form className="game-form" onSubmit={handleSubmit}>
+          <label htmlFor="title">Game title</label>
           <input
+            id="title"
+            name="title"
             type="text"
             placeholder="Example: Football at Nazareth"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={formData.title}
+            onChange={handleChange}
             required
           />
 
-          <label>Sport</label>
-
+          <label htmlFor="sport">Sport</label>
           <select
-            value={sport}
-            onChange={(e) => setSport(e.target.value)}
+            id="sport"
+            name="sport"
+            value={formData.sport}
+            onChange={handleChange}
             required
           >
-            <option value="">
-              Select sport
-            </option>
+            <option value="">Select sport</option>
 
-            <option value="Football">
-              ⚽ Football
-            </option>
-
-            <option value="Basketball">
-              🏀 Basketball
-            </option>
-
-            <option value="Tennis">
-              🎾 Tennis
-            </option>
-
-            <option value="Volleyball">
-              🏐 Volleyball
-            </option>
-
-            <option value="Running">
-              🏃 Running
-            </option>
-
-            <option value="Ice Hockey">
-              🏒 Ice Hockey
-            </option>
-
-            <option value="American Football">
-              🏈 American Football
-            </option>
-
-            <option value="Rugby">
-              🏉 Rugby
-            </option>
-
-            <option value="Boxing">
-              🥊 Boxing
-            </option>
-
-            <option value="Swimming">
-              🏊 Swimming
-            </option>
-
-            <option value="Cycling">
-              🚴 Cycling
-            </option>
-
-            <option value="Fitness">
-              🏋️ Fitness
-            </option>
+            {sports.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
 
-          <label>Location</label>
-
+          <label htmlFor="location">Location</label>
           <input
+            id="location"
+            name="location"
             type="text"
             placeholder="Example: Nazareth"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={formData.location}
+            onChange={handleChange}
             required
           />
 
-          <label>Date and time</label>
-
+          <label htmlFor="date">Date and time</label>
           <input
+            id="date"
+            name="date"
             type="datetime-local"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            value={formData.date}
+            onChange={handleChange}
             required
           />
 
-          <label>Level</label>
-
+          <label htmlFor="level">Level</label>
           <select
-            value={level}
-            onChange={(e) => setLevel(e.target.value)}
+            id="level"
+            name="level"
+            value={formData.level}
+            onChange={handleChange}
             required
           >
-            <option value="">
-              Select level
-            </option>
+            <option value="">Select level</option>
 
-            <option value="Casual">
-              Casual
-            </option>
-
-            <option value="Intermediate">
-              Intermediate
-            </option>
-
-            <option value="Competitive">
-              Competitive
-            </option>
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
+              </option>
+            ))}
           </select>
 
-          <label>Available spots</label>
-
+          <label htmlFor="spotsLeft">Available spots</label>
           <input
+            id="spotsLeft"
+            name="spotsLeft"
             type="number"
             min="1"
             placeholder="Example: 5"
-            value={spotsLeft}
-            onChange={(e) => setSpotsLeft(e.target.value)}
+            value={formData.spotsLeft}
+            onChange={handleChange}
             required
           />
 
@@ -221,11 +181,8 @@ function CreateGame() {
           >
             {loading ? 'Creating...' : 'Create Game'}
           </button>
-
         </form>
-
       </div>
-
     </div>
   )
 }

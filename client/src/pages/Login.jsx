@@ -1,15 +1,28 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import '../App.css'
+import Navbar from '../components/Navbar.jsx'
+import '../styles/global.css'
+import '../styles/Auth.css'
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const { email, password } = formData
 
     if (!email || !password) {
       alert('Please fill in all fields.')
@@ -18,83 +31,59 @@ function Login() {
 
     localStorage.setItem(
       'currentUser',
-      JSON.stringify({
-        email,
-      })
+      JSON.stringify({ email })
     )
 
     alert('Login successful!')
-
     navigate('/')
   }
 
   return (
-    <div className="create-game-page">
+    <div className="auth-page">
+      <Navbar />
 
-      <nav className="navbar">
-
-        <Link to="/" className="logo">
-          ⚡ SQUADUP
-        </Link>
-
-        <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/games">Find Games</Link>
-        </div>
-
-      </nav>
-
-      <div className="create-game-container">
-
+      <div className="auth-container">
         <h1>Log In</h1>
 
-        <p>
+        <p className="auth-description">
           Welcome back to SquadUp.
         </p>
 
-        <form
-          className="game-form"
-          onSubmit={handleSubmit}
-        >
-
-          <label>Email</label>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label htmlFor="email">Email</label>
 
           <input
+            id="email"
+            name="email"
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             required
           />
 
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
 
           <input
+            id="password"
+            name="password"
             type="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
           />
 
-          <button
-            type="submit"
-            className="join-btn"
-          >
+          <button type="submit" className="auth-submit">
             Log In
           </button>
 
-          <p style={{ textAlign: 'center' }}>
+          <p className="auth-footer">
             Don't have an account?{' '}
-            <Link to="/register">
-              Sign up
-            </Link>
+            <Link to="/register">Sign up</Link>
           </p>
-
         </form>
-
       </div>
-
     </div>
   )
 }

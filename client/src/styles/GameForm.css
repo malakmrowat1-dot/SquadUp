@@ -1,0 +1,69 @@
+.create-game-page {
+  min-height: 100vh;
+  background: #001107;
+  color: white;
+}
+
+.create-game-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 70px 30px;
+}
+
+.create-game-container h1 {
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.create-game-container > p {
+  text-align: center;
+  color: #7fa98c;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.game-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #0d2015;
+  border: 1px solid #25412f;
+  border-radius: 22px;
+  padding: 35px;
+}
+
+.game-form label {
+  font-size: 15px;
+  font-weight: bold;
+  color: #c8ff3d;
+  margin-top: 8px;
+}
+
+.game-form input,
+.game-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #355744;
+  background: #102218;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.game-form input:focus,
+.game-form select:focus {
+  border-color: #c8ff3d;
+}
+
+.game-form input::placeholder {
+  color: #75837a;
+}
+
+.game-form .join-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  font-size: 17px;
+}

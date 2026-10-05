@@ -1,0 +1,45 @@
+.navbar {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 70px;
+  border-bottom: 1px solid #1b2a20;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 900;
+  color: #c8ff3d;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.nav-links a {
+  color: #85a18d;
+  font-size: 16px;
+}
+
+.nav-links a:hover {
+  color: #c8ff3d;
+}
+
+.navbar .join-free {
+  background: #c8ff3d;
+  color: #001107;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.navbar .join-free:hover {
+  transform: scale(1.05);
+}

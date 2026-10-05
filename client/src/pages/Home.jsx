@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import heroImage from '../assets/squadup-sports.png'
-import '../App.css'
+import heroImage from '../assets/images/squadup-sports.png'
+import '../styles/global.css'
+import '../styles/Home.css'
 
 const sports = [
   { icon: '⚽', name: 'Football' },

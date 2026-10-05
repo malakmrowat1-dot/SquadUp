@@ -1,0 +1,170 @@
+.games-page {
+  min-height: 100vh;
+  background: #001107;
+  color: white;
+  padding: 70px 40px;
+}
+
+.games-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.games-header h1 {
+  font-size: 55px;
+  margin: 0 0 15px;
+  font-weight: 800;
+}
+
+.games-description {
+  color: #78aa8d;
+  font-size: 18px;
+}
+
+.section-label {
+  color: #c8ff3d;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.sport-filters {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.sport-filters button {
+  background: #102218;
+  color: white;
+  border: 1px solid #2d4a38;
+  border-radius: 30px;
+  padding: 12px 22px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.sport-filters button:hover,
+.sport-filters .active-filter {
+  background: #c8ff3d;
+  color: #001107;
+  border-color: #c8ff3d;
+}
+
+.games-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.game-card {
+  background: #0d2015;
+  border: 1px solid #25412f;
+  border-radius: 20px;
+  padding: 25px;
+  transition: 0.2s;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  border-color: #c8ff3d;
+}
+
+.game-card-top,
+.game-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-card-top {
+  margin-bottom: 25px;
+}
+
+.game-sport {
+  color: #c8ff3d;
+  font-weight: bold;
+}
+
+.game-level {
+  background: #193324;
+  color: #8fc9a5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.game-card h2 {
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+.game-details p {
+  color: #9cc0a9;
+  margin: 10px 0;
+}
+
+.game-footer {
+  border-top: 1px solid #294333;
+  padding-top: 20px;
+  margin-top: 25px;
+}
+
+.game-footer > span {
+  color: #8fc9a5;
+  font-size: 14px;
+}
+
+.game-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.join-btn,
+.edit-btn,
+.delete-btn {
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.join-btn {
+  background: #c8ff3d;
+  color: #001107;
+  border: none;
+}
+
+.edit-btn {
+  background: transparent;
+  color: #c8ff3d;
+  border: 1px solid #c8ff3d;
+}
+
+.delete-btn {
+  background: transparent;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+}
+
+.games-message {
+  text-align: center;
+  margin: 40px 0;
+}
+
+@media (max-width: 900px) {
+  .games-list {
+    grid-template-columns: 1fr;
+  }
+
+  .games-header h1 {
+    font-size: 40px;
+  }
+}
